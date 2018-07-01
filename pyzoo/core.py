@@ -1,28 +1,58 @@
 import numpy as np
 
+class ADAM(object):
+    def __init__(self, dim, eta=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8):
+        self.T = np.zeros(dim, dtype=np.int)
+        self.M = np.zeros(dim)
+        self.v = np.zeros(dim)
+        self.eta = eta
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.epsilon = epsilon
+
+    def update(self, index, gradient):
+        self.T[index] += 1
+        self.M[index] = self.beta1*self.M[index] + (1.-self.beta1)*gradient
+        self.v[index] = self.beta2*self.v[index] + (1.-self.beta2)*gradient*gradient
+
+        M_hat = self.M[index] / (1.-pow(self.beta1, self.T[index]))
+        v_hat = self.v[index] / (1.-pow(self.beta2, self.T[index]))
+
+        delta = -self.eta*M_hat / (np.sqrt(v_hat)+self.epsilon)
+        return delta
+
 class ZOOADAM(object):
-    class ADAM(object):
-        def __init__(self, dim, eta=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8):
-            self.T = np.zeros(dim, dtype=np.int)
-            self.M = np.zeros(dim)
-            self.v = np.zeros(dim)
-            self.eta = eta
-            self.beta1 = beta1
-            self.beta2 = beta2
-            self.epsilon = epsilon
+    """
+    Finds a local minimum of a multivariate function.
 
-        def update(self, index, gradient):
-            self.T[index] += 1
-            self.M[index] = self.beta1*self.M[index] + (1.-self.beta1)*gradient
-            self.v[index] = self.beta2*self.v[index] + (1.-self.beta2)*gradient*gradient
+    ZOO-ADAM
 
-            M_hat = self.M[index] / (1.-pow(self.beta1, self.T[index]))
-            v_hat = self.v[index] / (1.-pow(self.beta2, self.T[index]))
+    Parameters
+    ----------
+    func : callable
+        The objective function to be minimized.  Must be in the form
+        ``f(x, *args)``, where ``x`` is the argument in the form of a 1-D array
+        and ``args`` is a  tuple of any additional fixed parameters needed to
+        completely specify the function.
+    bounds : sequence
+        Bounds for variables.  ``(min, max)`` pairs for each element in ``x``,
+        defining the lower and upper bounds for the optimizing argument of
+        `func`. It is required to have ``len(bounds) == len(x)``.
+        ``len(bounds)`` is used to determine the number of parameters in ``x``.
+    x0 : tuple, optional
+        Initial value of variables. If not given, ``x0`` will be randomly
+        initialized.
+    step : float, optional
+        The step size of update. The default value is 0.01.
+    maxiter : int, optional
+        The maximum number of iteration. The default value is 1000.
+    disp: boolean, optional
+        If true, display progress after each iteration
+    """
 
-            delta = -self.eta*M_hat / (np.sqrt(v_hat)+self.epsilon)
-            return delta
 
-    def __init__(self, func, bounds, x0=None, step=0.001, maxiter=1000, disp=False):
+    def __init__(self, func, bounds, x0=None, step=0.001, maxiter=1000,
+        disp=False):
         self.maxiter = maxiter
         self.dim = len(bounds)
         self.func = func
@@ -46,7 +76,7 @@ class ZOOADAM(object):
 
         self.disp = disp
 
-        self.adam = ZOOADAM.ADAM(self.dim)
+        self.adam = ADAM(self.dim)
 
     @property
     def x(self):
