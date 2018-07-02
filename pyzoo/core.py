@@ -3,6 +3,7 @@ zoo-adam: The zeroth-order optimization algorithm with ADAM.
 """
 
 import numpy as np
+from scipy.optimize import OptimizeResult
 
 class ADAM(object):
     def __init__(self, dim, eta=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8):
@@ -110,6 +111,13 @@ class ZOOADAM(object):
             self.update()
             if self.disp:
                 print "[Error] Plus: %.5f Minus: %.5f" % (self.__f_plus, self.__f_minus)
+
+        return OptimizeResult(
+            x=self.x,
+            fun=0.5*(self.__f_plus+self.__f_minus),
+            nfev=2*self.maxiter,
+            nit=self.maxiter)
+
 
     def estimate_gradient(self, index):
         """
