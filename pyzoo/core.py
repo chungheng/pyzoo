@@ -1,3 +1,7 @@
+"""
+zoo-adam: The zeroth-order optimization algorithm with ADAM.
+"""
+
 import numpy as np
 
 class ADAM(object):
@@ -46,8 +50,11 @@ class ZOOADAM(object):
         The step size of update. The default value is 0.01.
     maxiter : int, optional
         The maximum number of iteration. The default value is 1000.
-    disp: boolean, optional
+    disp : boolean, optional
         If true, display progress after each iteration
+    adam_params : dict, optional
+        Parameters for setting up ADAM, see the docstring of ``ADAM`` class for
+        further details.
     """
 
 
@@ -81,12 +88,14 @@ class ZOOADAM(object):
     @property
     def x(self):
         """
-        Return scaled x
+        return scaled x.
         """
         return self._scale_parameters(self.__unscaled_x)
 
     def update(self):
-
+        """
+        update the solution along a randomly picked direction.
+        """
         index = np.random.randint(self.dim)
         gradient = self.estimate_gradient(index)
         delta = self.adam.update(index, gradient)
@@ -95,6 +104,7 @@ class ZOOADAM(object):
 
     def solve(self):
         """
+        aprroximate the local minimum over iterations.
         """
         for i in xrange(self.maxiter):
             self.update()
@@ -102,6 +112,9 @@ class ZOOADAM(object):
                 print "[Error] Plus: %.5f Minus: %.5f" % (self.__f_plus, self.__f_minus)
 
     def estimate_gradient(self, index):
+        """
+        estimate the partial derivative of a randomly picked direction.
+        """
         perturbation = self.basis[index]*self.step
         x_plus = self._scale_parameters(self.__unscaled_x + perturbation)
         x_minus = self._scale_parameters(self.__unscaled_x - perturbation)
