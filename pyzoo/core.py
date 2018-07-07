@@ -78,13 +78,14 @@ class ZOOADAM(object):
 
 
     def __init__(self, func, bounds, x0=None, step=0.001, maxiter=1000,
-        disp=False):
+        disp=False, adam_params=None):
         self.maxiter = maxiter
         self.dim = len(bounds)
         self.func = func
         self.bounds = np.array(bounds, dtype='float').T
         self.basis = np.eye(self.dim)
         self.step = step
+        adam_params = adam_params or dict()
 
         if (np.size(self.bounds, 0) != 2 or not
                 np.all(np.isfinite(self.bounds))):
@@ -102,7 +103,7 @@ class ZOOADAM(object):
 
         self.disp = disp
 
-        self.adam = ADAM(self.dim)
+        self.adam = ADAM(self.dim, **adam_params)
 
     @property
     def x(self):
