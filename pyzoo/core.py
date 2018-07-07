@@ -6,6 +6,24 @@ import numpy as np
 from scipy.optimize import OptimizeResult
 
 class ADAM(object):
+    """
+    An optimizor for the gradient descent algorithm on multivariate space.
+
+    ADAM stands for ``adaptive moment estimation''.
+
+    Parameters
+    ----------
+    dim : int
+        The dimensionality of the varaible space.
+    eta : float, optional
+        The maximum step size of the gradient.
+    beta1 : float, optional
+        The scaling term of the first momentum.
+    beta2 : float, optional
+        The scaling term of the second momentum.
+    epsilon : float, optional
+        The bias term for avoiding zero value at the denominator.
+    """
     def __init__(self, dim, eta=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8):
         self.T = np.zeros(dim, dtype=np.int)
         self.M = np.zeros(dim)
