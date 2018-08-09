@@ -5,7 +5,7 @@ zoo-adam: The zeroth-order optimization algorithm with ADAM.
 import numpy as np
 from scipy.optimize import OptimizeResult
 
-from .core import SCD
+from .scd import SCD
 
 class ADAM(object):
     """
