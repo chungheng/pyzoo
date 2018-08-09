@@ -112,22 +112,24 @@ class ZOOADAM(object):
         """
         return self._scale_parameters(self.__unscaled_x)
 
-    def update(self):
+    def compute_delta(self, index):
         """
-        update the solution along a randomly picked direction.
+        compute the amount of update along a randomly picked direction.
         """
-        index = np.random.randint(self.dim)
         gradient = self.estimate_gradient(index)
         delta = self.adam.update(index, gradient)
 
-        self.__unscaled_x[index] += delta
+        return delta
 
     def solve(self):
         """
         aprroximate the local minimum over iterations.
         """
         for i in xrange(self.maxiter):
-            self.update()
+            index = np.random.randint(self.dim)
+            delta = self.compute_delta(index)
+            self.__unscaled_x[index] += delta
+
             if self.disp:
                 print "[Error] Plus: %.5f Minus: %.5f" % (self.__f_plus, self.__f_minus)
 
