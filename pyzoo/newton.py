@@ -47,7 +47,8 @@ class ZOONewton(SCD):
         self.eta = eta
 
     def display(self, nit):
-        pass
+        print "f: %f; f+: %f; f-: %f" % (self.__f, self.__f_plus,
+            self.__f_minus)
 
     def compute_delta(self, index):
         """
@@ -68,8 +69,8 @@ class ZOONewton(SCD):
         """
         return the optimization result.
         """
-        return OptimizeResult(x=self.x, nit=self.maxiter, nfev=2*self.maxiter,
-                              fun=0.5*(self.__f_plus+self.__f_minus))
+        return OptimizeResult(x=self.x, nit=self.maxiter, nfev=3*self.maxiter,
+                              fun=self.__f)
 
     def estimate_gradient(self, index):
         """
