@@ -31,7 +31,8 @@ class ZOONewton(SCD):
     eta : float, optional
         The maximum step size of the gradient.
     step : float, optional
-        The step size of update. The default value is 0.001.
+        The step size for estimating diretional gradient and Hessian. The
+        default value is 0.001.
     maxiter : int, optional
         The maximum number of iteration. The default value is 1000.
     disp : boolean, optional

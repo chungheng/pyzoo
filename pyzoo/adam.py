@@ -68,7 +68,8 @@ class ZOOADAM(SCD):
         Initial value of variables. If not given, ``x0`` will be randomly
         initialized.
     step : float, optional
-        The step size of update. The default value is 0.01.
+        The step size for estimating diretional gradient. The default value is
+        0.001.
     maxiter : int, optional
         The maximum number of iteration. The default value is 1000.
     disp : boolean, optional
