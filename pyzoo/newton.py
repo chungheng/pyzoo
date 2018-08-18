@@ -81,4 +81,9 @@ class ZOONewton(SCD):
         """
         estimate the diretional Hessian of a randomly picked direction.
         """
-        pass
+        self.__f = self.func(self.x)
+
+        step_sq = self.step * self.step
+        hessian = (self.__f_plus + self.__f_minus - 2.*self.__f) /s tep_sq
+
+        return hessian
