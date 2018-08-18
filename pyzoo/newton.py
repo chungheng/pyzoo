@@ -44,6 +44,7 @@ class ZOONewton(SCD):
         super(ZOONewton, self).__init__(func, bounds, x0=x0, step=step,
             maxiter=maxiter, disp=disp)
 
+        self.eta = eta
 
     def display(self, nit):
         pass
@@ -52,7 +53,15 @@ class ZOONewton(SCD):
         """
         compute the amount of update along a randomly picked direction.
         """
-        pass
+        gradient = self.estimate_gradient(index)
+        hessian = self.estimate_hessian(index)
+
+        if hessian <= 0.:
+            delta = -self.eta * gradient
+        else:
+            delta = -self.eta * gradient / hessian
+
+        return delta
 
     @property
     def result(self):
