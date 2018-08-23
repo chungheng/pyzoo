@@ -74,13 +74,18 @@ class ZOOADAM(SCD):
         The maximum number of iteration. The default value is 1000.
     disp : boolean, optional
         If true, display progress after each iteration
-    adam_params : dict, optional
-        Parameters for setting up ADAM, see the docstring of ``ADAM`` class for
-        further details.
+    eta : float, optional
+        The maximum step size of the gradient.
+    beta1 : float, optional
+        The scaling term of the first momentum.
+    beta2 : float, optional
+        The scaling term of the second momentum.
+    epsilon : float, optional
+        The bias term for avoiding zero value at the denominator.
     """
 
     def __init__(self, func, bounds, x0=None, step=0.001, maxiter=1000,
-        disp=False, adam_params=None):
+        disp=False, eta=0.01, beta1=0.9, beta2=0.999, epsilon=1e-8):
 
         super(ZOOADAM, self).__init__(func, bounds, x0=x0, step=step,
             maxiter=maxiter, disp=disp)
