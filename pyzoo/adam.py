@@ -1,6 +1,7 @@
 """
 zoo-adam: The zeroth-order optimization algorithm with ADAM.
 """
+from __future__ import division, print_function
 
 import numpy as np
 from scipy.optimize import OptimizeResult
@@ -94,7 +95,8 @@ class ZOOADAM(SCD):
         self.adam = ADAM(self.dim, **adam_params)
 
     def display(self, nit):
-        print "[Error] Plus: %.5f Minus: %.5f" % (self.__f_plus, self.__f_minus)
+        print("[Error] Plus: {0:.5f} Minus: {0:.5f}".format(
+            self.__f_plus, self.__f_minus))
 
     def compute_delta(self, index):
         """

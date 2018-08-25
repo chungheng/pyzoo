@@ -1,6 +1,7 @@
 """
 zoo-newton: The zeroth-order optimization algorithm with Newton's method.
 """
+from __future__ import division, print_function
 
 import numpy as np
 from scipy.optimize import OptimizeResult
@@ -48,7 +49,7 @@ class ZOONewton(SCD):
         self.eta = eta
 
     def display(self, nit):
-        print "f: %f; f+: %f; f-: %f" % (self.__f, self.__f_plus,
+        print("f: %f; f+: %f; f-: %f").format(self.__f, self.__f_plus,
             self.__f_minus)
 
     def compute_delta(self, index):
